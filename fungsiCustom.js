@@ -44,7 +44,7 @@ const bacaData = (fnCallback) => {
               const arrayOfObject3 = JSON.parse(data);
               const data3 = fnCallback(err, arrayOfObject3[0].data.message.substring(5, 10))
               const arr = [data1, data2, data3]
-              return arr
+              return console.log(arr)
             }
           )
         }
@@ -60,8 +60,8 @@ const fnCallback = (err, data) => {
   return data
 }
 
-const hasil = bacaData(fnCallback)
-console.log(hasil)
+bacaData(fnCallback)
+
 
 // ! JANGAN DIMODIFIKASI
 module.exports = {
