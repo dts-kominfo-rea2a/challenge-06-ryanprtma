@@ -20,13 +20,12 @@ let modifyFile3 = (val) => {
 // gunakan variabel file1, file2, dan file3
 const bacaData = (err, data) => {
   if (err) {
-    fnCallback(err, data)
+    return err
   }
-  fnCallback(null, data)
+  return data
 }
 
 const fnCallback = (err, data) => {
-  // let arr = []
   if (err) {
     return console.log('Ada terjadi error: ' + err);
   }
@@ -39,35 +38,26 @@ bacaData(fs.readFile(
     encoding: 'utf8',
   },
   (err, data) => {
-    if (err) {
-      return console.log(err);
-    }
     const arrayOfObject1 = JSON.parse(data);
-    const data1 = fnCallback(err, arrayOfObject1.message.substring(5, 10))
+    const data1 = arrayOfObject1.message.substring(5, 10)
     fs.readFile(
       file2,
       {
         encoding: 'utf8',
       },
       (err, data) => {
-        if (err) {
-          return console.log(err);
-        }
         const arrayOfObject2 = JSON.parse(data);
-        const data2 = fnCallback(err, arrayOfObject2[0].message.substring(5, 10))
+        const data2 = arrayOfObject2[0].message.substring(5, 10)
         fs.readFile(
           file3,
           {
             encoding: 'utf8',
           },
           (err, data) => {
-            if (err) {
-              return console.log(err);
-            }
             const arrayOfObject3 = JSON.parse(data);
-            const data3 = fnCallback(err, arrayOfObject3[0].data.message.substring(5, 10))
+            const data3 = arrayOfObject3[0].data.message.substring(5, 10)
             const arr = [data1, data2, data3]
-            return console.log(arr)
+            bacaData(null, arr)
           }
         )
       }
