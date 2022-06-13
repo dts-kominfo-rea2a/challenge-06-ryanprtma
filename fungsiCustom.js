@@ -18,11 +18,46 @@ let modifyFile3 = (val) => {
 
 // TODO: Kerjakan bacaData
 // gunakan variabel file1, file2, dan file3
-const bacaData = (err, data) => {
-  if (err) {
-    return err
-  }
-  return data
+const bacaData = (fnCallback) => {
+  fs.readFile(
+    file1,
+    {
+      encoding: 'utf8',
+    },
+    (err, data) => {
+      if (err) {
+        return err
+      }
+      const arrayOfObject1 = JSON.parse(data);
+      const data1 = arrayOfObject1.message.substring(5, 10)
+      fs.readFile(
+        file2,
+        {
+          encoding: 'utf8',
+        },
+        (err, data) => {
+          if (err) {
+            return err
+          }
+          const arrayOfObject2 = JSON.parse(data);
+          const data2 = arrayOfObject2[0].message.substring(5, 10)
+          fs.readFile(
+            file3,
+            {
+              encoding: 'utf8',
+            },
+            (err, data) => {
+              const arrayOfObject3 = JSON.parse(data);
+              const data3 = arrayOfObject3[0].data.message.substring(5, 10)
+              const arr = [data1, data2, data3]
+              fnCallback(err, arr)
+            }
+          )
+        }
+      )
+    }
+  )
+  return fnCallback
 }
 
 const fnCallback = (err, data) => {
@@ -32,38 +67,7 @@ const fnCallback = (err, data) => {
   return data
 }
 
-bacaData(fs.readFile(
-  file1,
-  {
-    encoding: 'utf8',
-  },
-  (err, data) => {
-    const arrayOfObject1 = JSON.parse(data);
-    const data1 = arrayOfObject1.message.substring(5, 10)
-    fs.readFile(
-      file2,
-      {
-        encoding: 'utf8',
-      },
-      (err, data) => {
-        const arrayOfObject2 = JSON.parse(data);
-        const data2 = arrayOfObject2[0].message.substring(5, 10)
-        fs.readFile(
-          file3,
-          {
-            encoding: 'utf8',
-          },
-          (err, data) => {
-            const arrayOfObject3 = JSON.parse(data);
-            const data3 = arrayOfObject3[0].data.message.substring(5, 10)
-            const arr = [data1, data2, data3]
-            bacaData(null, arr)
-          }
-        )
-      }
-    )
-  }
-))
+bacaData(fnCallback)
 
 
 // ! JANGAN DIMODIFIKASI
